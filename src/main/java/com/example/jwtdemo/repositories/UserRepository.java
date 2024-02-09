@@ -1,15 +1,12 @@
 package com.example.jwtdemo.repositories;
 
-import com.example.jwtdemo.model.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.example.jwtdemo.entity.User;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepository {
-    public User findUserByEmail(String email){
-        User user = new User(email, "123456");
-        user.setFirstName("FirstName");
-        user.setLastName("LastName");
-        return user;
-    }
+public interface UserRepository extends MongoRepository<User, String> {
+    @Query("{email: '?0'}")
+    User findUserByEmail(String email);
 }
