@@ -15,15 +15,13 @@ import java.util.List;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public CustomUserDetailsService(UserRepository userRepository, PasswordEncoder  passwordEncoder){
+    public CustomUserDetailsService(UserRepository userRepository){
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public void createUser(String email, String password){
-        userRepository.save(new User(email, passwordEncoder.encode(password), "USER"));
+        userRepository.save(new User(email, passwordEncoder().encode(password), "USER"));
     }
 
     @Override
@@ -38,5 +36,9 @@ public class CustomUserDetailsService implements UserDetailsService {
                         .roles(roles.toArray(new String[0]))
                         .build();
         return userDetails;
+    }
+
+    public PasswordEncoder passwordEncoder(){
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

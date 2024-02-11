@@ -27,7 +27,8 @@ public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthorizationFilter jwtAuthorizationFilter){
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService
+            , JwtAuthorizationFilter jwtAuthorizationFilter){
         this.userDetailsService = customUserDetailsService;
         this.jwtAuthorizationFilter = jwtAuthorizationFilter;
     }
@@ -35,8 +36,10 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http)
         throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        AuthenticationManagerBuilder authenticationManagerBuilder
+                = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userDetailsService)
+                .passwordEncoder(userDetailsService.passwordEncoder());
         return authenticationManagerBuilder.build();
     }
 
@@ -54,10 +57,5 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

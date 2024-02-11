@@ -2,6 +2,7 @@ package com.example.jwtdemo.controllers;
 
 import com.example.jwtdemo.auth.JwtUtil;
 import com.example.jwtdemo.model.request.LoginReq;
+import com.example.jwtdemo.model.request.SignupReq;
 import com.example.jwtdemo.model.response.ErrorRes;
 import com.example.jwtdemo.model.response.LoginRes;
 import com.example.jwtdemo.repositories.UserRepository;
@@ -33,9 +34,9 @@ public class AuthController {
 
     @ResponseBody
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ResponseEntity signup(@RequestBody LoginReq loginReq){
+    public ResponseEntity signup(@RequestBody SignupReq signupReq){
         try{
-            customUserDetailsService.createUser(loginReq.getEmail(), loginReq.getPassword());
+            customUserDetailsService.createUser(signupReq.getEmail(), signupReq.getPassword());
 
             return ResponseEntity.ok("sign up successfully");
         } catch (BadCredentialsException e){
