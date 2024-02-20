@@ -1,6 +1,7 @@
 package com.example.jwtdemo.services;
 
 import com.example.jwtdemo.entity.User;
+import com.example.jwtdemo.entity.UserType;
 import com.example.jwtdemo.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,14 +22,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public void createUser(String email, String password){
-        userRepository.save(new User(email, passwordEncoder().encode(password), "USER"));
+        userRepository.save(new User(email, passwordEncoder().encode(password), UserType.USER));
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findUserByEmail(email);
         List<String> roles = new ArrayList<>();
-        roles.add(user.getRole());
+        roles.add(user.getRole().getUserType());
         UserDetails userDetails =
                 org.springframework.security.core.userdetails.User.builder()
                         .username(user.getEmail())

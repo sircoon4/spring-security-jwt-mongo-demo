@@ -12,9 +12,9 @@ public class User {
 
     private String email;
     private String password;
-    private String role;
+    private UserType role;
 
-    public User(String email, String password, String role) {
+    public User(String email, String password, UserType role) {
         super();
         this.email = email;
         this.password = password;
@@ -37,11 +37,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public UserType getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserType role) {
         this.role = role;
     }
 }
